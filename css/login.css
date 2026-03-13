@@ -1,0 +1,147 @@
+/* Login & Register Page */
+.auth-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #5d4e37 0%, #3e3529 100%);
+    padding: 24px;
+}
+
+.auth-box {
+    background: #fff;
+    border-radius: 16px;
+    padding: 44px;
+    box-shadow: 0 12px 48px rgba(0,0,0,0.18);
+    width: 100%;
+    max-width: 440px;
+    border: 1px solid rgba(93, 78, 55, 0.08);
+}
+
+.auth-box h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 30px;
+    font-size: 28px;
+}
+
+.auth-box .logo {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.auth-box .logo h1 {
+    color: #5d4e37;
+    font-size: 32px;
+    margin-bottom: 5px;
+}
+
+.auth-box .logo p {
+    color: #666;
+    font-size: 14px;
+}
+
+.auth-box .form-group {
+    margin-bottom: 20px;
+}
+
+.auth-box .form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #333;
+    font-weight: 500;
+}
+
+.auth-box .form-group input {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 15px;
+    transition: border-color 0.3s;
+}
+
+.auth-box .form-group input:focus {
+    outline: none;
+    border-color: #5d4e37;
+    box-shadow: 0 0 0 3px rgba(93, 78, 55, 0.12);
+}
+
+.auth-box .btn {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, #5d4e37 0%, #3e3529 100%);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.auth-box .btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(93, 78, 55, 0.25);
+}
+
+.auth-box .links {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.auth-box .links a {
+    color: #5d4e37;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.auth-box .links a:hover {
+    text-decoration: underline;
+}
+
+.auth-box .divider {
+    text-align: center;
+    margin: 20px 0;
+    color: #999;
+}
+
+.role-select {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.role-option {
+    flex: 1;
+    padding: 15px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.role-option:hover {
+    border-color: #5d4e37;
+}
+
+.role-option.active {
+    background: linear-gradient(135deg, #5d4e37 0%, #3e3529 100%);
+    color: white;
+    border-color: #5d4e37;
+}
+
+.role-option input[type="radio"] {
+    display: none;
+}
+
+@media (max-width: 480px) {
+    .auth-box {
+        padding: 30px 20px;
+    }
+    
+    .auth-box h2 {
+        font-size: 24px;
+    }
+}
