@@ -1,8 +1,14 @@
 <?php
 /**
- * Bảng định tuyến MVC - Bài tập lớn PHP
- * Map: route_name => [TênController, method]
- * Entry point: index.php?r=route_name
+ * =============================================================================
+ * ROUTES - Bảng định tuyến (MVC)
+ * =============================================================================
+ *
+ * Ánh xạ: tên route (tham số ?r=...) → [Tên class Controller, tên method].
+ * Ví dụ: ?r=customer_home → HomeController::index()
+ *        ?r=admin_orders → OrderController::index()
+ *
+ * Tất cả URL đều qua index.php?r=... ; không có file .php riêng cho từng trang.
  */
 return [
     // ----- Khách hàng -----

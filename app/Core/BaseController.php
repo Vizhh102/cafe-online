@@ -1,14 +1,18 @@
 <?php
 /**
- * Lớp cơ sở cho tất cả Controllers
- * Cung cấp các phương thức chung để xử lý request và render view
+ * =============================================================================
+ * BaseController - Lớp cơ sở cho mọi Controller (MVC)
+ * =============================================================================
+ *
+ * Nhiệm vụ Controller: nhận request → gọi Model (DB) → truyền dữ liệu sang View.
+ * View chỉ nhận dữ liệu qua $data, không gọi SQL hay logic nghiệp vụ.
  */
 class BaseController {
-    
+
     /**
-     * Hiển thị view (giao diện) – đúng chuẩn MVC: View chỉ nhận dữ liệu, không truy vấn DB.
-     * @param string $viewName Tên file view (không có đuôi .php), vd: 'customer/home/index'
-     * @param array $data Mảng dữ liệu truyền vào view (trong view dùng biến cùng tên key)
+     * Render view: extract($data) rồi include file View.
+     * @param string $viewName Đường dẫn view (không .php), vd: 'admin/orders/index'
+     * @param array $data Dữ liệu cho view; trong view dùng biến trùng tên key
      */
     protected function view($viewName, $data = []) {
         extract($data);

@@ -8,6 +8,7 @@
 require_once __DIR__ . '/../../Core/BaseController.php';
 require_once __DIR__ . '/../../Models/OrderModel.php';
 require_once __DIR__ . '/../../../config/permissions.php';
+require_once __DIR__ . '/../../../config/database.php';
 
 class OrderController extends BaseController {
     private $orderModel;  // Model xử lý đơn hàng
@@ -51,10 +52,12 @@ class OrderController extends BaseController {
             unset($_SESSION['message']);
         }
         
-        // Hiển thị view
+        // Tên cột ngày đặt (để view chỉ hiển thị, không gọi DB)
+        $orderDateCol = columnExists('DON_HANG', 'ngay_gio') ? 'ngay_gio' : (columnExists('DON_HANG', 'ngay_dat') ? 'ngay_dat' : null);
         $this->view('admin/orders/index', [
             'orders' => $orders,
             'message' => $message,
+            'orderDateCol' => $orderDateCol,
             'current_route' => 'admin_orders',
             'page_title' => 'Đơn hàng'
         ]);
@@ -81,12 +84,14 @@ class OrderController extends BaseController {
             unset($_SESSION['message']);
         }
         
-        // Hiển thị view
+        // Tên cột ngày đặt (để view chỉ hiển thị)
+        $orderDateCol = columnExists('DON_HANG', 'ngay_gio') ? 'ngay_gio' : (columnExists('DON_HANG', 'ngay_dat') ? 'ngay_dat' : null);
         $this->view('admin/orders/show', [
             'order' => $order,
             'items' => $items,
             'id' => $id,
             'message' => $message,
+            'orderDateCol' => $orderDateCol,
             'current_route' => 'admin_orders',
             'page_title' => 'Chi tiết đơn hàng'
         ]);

@@ -1,7 +1,8 @@
 <?php
 /**
- * Helper dùng chung – Bài tập lớn PHP (MVC).
- * Hàm url() tạo link theo route để mọi truy cập đều qua index.php, dễ bảo trì.
+ * Helpers - Hàm dùng chung (MVC)
+ * url($route, $params): tạo URL dạng index.php?r=...&key=value.
+ * Dùng trong View và Controller để không hard-code đường dẫn.
  */
 
 if (!function_exists('url')) {

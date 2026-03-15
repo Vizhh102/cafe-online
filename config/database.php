@@ -1,5 +1,9 @@
 <?php
-// Cấu hình kết nối database
+/**
+ * Database config & helpers
+ * Kết nối MySQL và các hàm dùng chung: executeQuery, fetchOne, fetchAll, escapeString,
+ * columnExists, getLogo, formatOrderStatus, formatPaymentLabel.
+ */
 define('DB_HOST', 'localhost');
 define('DB_USER', 'root');
 define('DB_PASS', '');

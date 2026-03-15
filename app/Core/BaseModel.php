@@ -1,16 +1,17 @@
 <?php
 /**
- * Lớp cơ sở cho tất cả Models
- * Cung cấp các phương thức chung để làm việc với database
+ * =============================================================================
+ * BaseModel - Lớp cơ sở cho mọi Model (MVC)
+ * =============================================================================
+ *
+ * Nhiệm vụ Model: chỉ chứa truy vấn database (SELECT, INSERT, UPDATE, DELETE).
+ * Controller gọi Model để lấy/cập nhật dữ liệu; không viết SQL trong Controller hay View.
  */
 require_once __DIR__ . '/../../config/database.php';
 
 class BaseModel {
-    protected $conn; // Biến kết nối database
-    
-    /**
-     * Hàm khởi tạo - lấy kết nối database
-     */
+    protected $conn;
+
     public function __construct() {
         global $conn;
         $this->conn = $conn;
