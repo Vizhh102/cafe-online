@@ -8,6 +8,13 @@ require_once __DIR__ . '/../Core/BaseModel.php';
 class CustomerModel extends BaseModel {
 
     /**
+     * Lấy danh sách tất cả khách hàng (dùng cho admin)
+     */
+    public function getAll() {
+        return $this->fetchAll("SELECT * FROM KHACH_HANG ORDER BY ma_kh ASC");
+    }
+
+    /**
      * Lấy thông tin khách hàng theo mã
      */
     public function getById($ma_kh) {

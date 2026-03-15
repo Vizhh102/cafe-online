@@ -11,10 +11,8 @@ define('PERMISSION_MANAGE_PRODUCTS', 'manage_products');
 define('PERMISSION_MANAGE_CATEGORIES', 'manage_categories');
 define('PERMISSION_MANAGE_CUSTOMERS', 'manage_customers');
 define('PERMISSION_MANAGE_EMPLOYEES', 'manage_employees');
-define('PERMISSION_MANAGE_WAREHOUSE', 'manage_warehouse');
 define('PERMISSION_VIEW_REPORTS', 'view_reports');
 define('PERMISSION_MANAGE_FINANCE', 'manage_finance');
-define('PERMISSION_MANAGE_SETTINGS', 'manage_settings');
 
 // Quyền mặc định cho Admin (tất cả quyền)
 $admin_permissions = [
@@ -24,7 +22,6 @@ $admin_permissions = [
     PERMISSION_MANAGE_CATEGORIES,
     PERMISSION_MANAGE_CUSTOMERS,
     PERMISSION_MANAGE_EMPLOYEES,
-    PERMISSION_MANAGE_WAREHOUSE,
     PERMISSION_VIEW_REPORTS,
     PERMISSION_MANAGE_FINANCE
 ];
@@ -120,8 +117,14 @@ function isAdmin() {
 /**
  * Kiểm tra và yêu cầu quyền
  */
-function requirePermission($permission, $redirect_url = '../auth/admin_login.php') {
+function requirePermission($permission, $redirect_url = null) {
     if (!hasPermission($permission)) {
+        if ($redirect_url === null && function_exists('url')) {
+            $redirect_url = url('auth_login_admin');
+        }
+        if ($redirect_url === null) {
+            $redirect_url = 'index.php?r=auth_login_admin';
+        }
         header('Location: ' . $redirect_url);
         exit();
     }

@@ -1,6 +1,6 @@
 <?php
-require_once BASE_PATH . '/includes/admin_header.php'; 
-
+require_once BASE_PATH . '/app/Views/layouts/admin_header.php';
+require_once BASE_PATH . '/config/database.php';
 $orderDateCol = columnExists('DON_HANG','ngay_gio') ? 'ngay_gio' : (columnExists('DON_HANG','ngay_dat') ? 'ngay_dat' : null);
 ?>
 	<div class="card">
@@ -43,7 +43,7 @@ $orderDateCol = columnExists('DON_HANG','ngay_gio') ? 'ngay_gio' : (columnExists
 		<p><strong>Tổng:</strong> <?php echo number_format($total); ?>đ</p>
 
 		<h3>Cập nhật trạng thái</h3>
-		<form method="post">
+		<form method="post" action="<?php echo url('admin_order_update'); ?>">
 			<input type="hidden" name="action" value="update_status">
 			<input type="hidden" name="id" value="<?php echo htmlspecialchars($id); ?>">
 			<input type="hidden" name="redirect_to" value="show">
@@ -65,10 +65,10 @@ $orderDateCol = columnExists('DON_HANG','ngay_gio') ? 'ngay_gio' : (columnExists
 			<button type="submit">Cập nhật</button>
 		</form>
 
-		<p><a href="orders.php">&larr; Quay lại danh sách đơn hàng</a></p>
+		<p><a href="<?php echo url('admin_orders'); ?>">&larr; Quay lại danh sách đơn hàng</a></p>
 		<?php else: ?>
 			<p>Không tìm thấy đơn hàng.</p>
 		<?php endif; ?>
 	</div>
-<?php require_once BASE_PATH . '/includes/admin_footer.php'; ?>
+<?php require_once BASE_PATH . '/app/Views/layouts/admin_footer.php'; ?>
 

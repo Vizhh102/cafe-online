@@ -27,7 +27,7 @@ class OrderController extends BaseController {
         
         // Kiểm tra đăng nhập
         if (!isset($_SESSION['role']) || ($_SESSION['role'] != 'admin' && $_SESSION['role'] != 'employee')) {
-            $this->redirect('../auth/admin_login.php');
+            $this->redirect(url('auth_login_admin'));
         }
         
         // Kiểm tra quyền quản lý đơn hàng
@@ -54,7 +54,9 @@ class OrderController extends BaseController {
         // Hiển thị view
         $this->view('admin/orders/index', [
             'orders' => $orders,
-            'message' => $message
+            'message' => $message,
+            'current_route' => 'admin_orders',
+            'page_title' => 'Đơn hàng'
         ]);
     }
     
@@ -65,7 +67,7 @@ class OrderController extends BaseController {
         // Lấy mã đơn hàng từ URL
         $id = $_GET['id'] ?? null;
         if (!$id) {
-            $this->redirect('orders.php');
+            $this->redirect(url('admin_orders'));
         }
         
         // Lấy thông tin đơn hàng và chi tiết
@@ -84,7 +86,9 @@ class OrderController extends BaseController {
             'order' => $order,
             'items' => $items,
             'id' => $id,
-            'message' => $message
+            'message' => $message,
+            'current_route' => 'admin_orders',
+            'page_title' => 'Chi tiết đơn hàng'
         ]);
     }
     
@@ -94,7 +98,7 @@ class OrderController extends BaseController {
     public function updateStatus() {
         // Chỉ chấp nhận POST
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            $this->redirect('orders.php');
+            $this->redirect(url('admin_orders'));
         }
         
         // Lấy dữ liệu từ form
@@ -110,11 +114,9 @@ class OrderController extends BaseController {
         
         // Chuyển hướng
         if (isset($_POST['redirect_to']) && $_POST['redirect_to'] === 'show') {
-            // Quay lại trang chi tiết
-            $this->redirect('orders.php?id=' . urlencode($id));
+            $this->redirect(url('admin_order_show', ['id' => $id]));
         } else {
-            // Quay lại danh sách
-            $this->redirect('orders.php');
+            $this->redirect(url('admin_orders'));
         }
     }
 }
