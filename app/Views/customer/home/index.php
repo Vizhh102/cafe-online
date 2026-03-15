@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trang chủ - The Caffe</title>
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <?php include BASE_PATH . '/includes/header.php'; ?>
+    <?php require BASE_PATH . '/app/Views/layouts/customer_header.php'; ?>
     <main style="padding: 0;">
         <div class="promo-banner-full">
-            <a href="menu.php" class="banner-link-full">
+            <a href="<?php echo url('customer_menu'); ?>" class="banner-link-full">
                 <div class="banner-image-container">
                     <img src="https://png.pngtree.com/png-clipart/20210620/original/pngtree-coffee-color-coffee-shop-promotion-banner-png-image_6440532.jpg" alt="Banner The Caffe" class="banner-image-full-width">
                 </div>
@@ -23,7 +23,7 @@
             </div>
             <div class="categories-grid">
                 <div class="category-item category-large">
-                    <a href="menu.php" class="category-link">
+                    <a href="<?php echo url('customer_menu'); ?>" class="category-link">
                         <div class="category-image-wrapper">
                             <img src="https://chuphinhmenu.com/wp-content/uploads/2022/01/chup-hinh-tra-sua-hcm-2022-0001.jpg" alt="Tất Cả Sản Phẩm" class="category-image">
                         </div>
@@ -31,7 +31,7 @@
                     </a>
                 </div>
                 <div class="category-item category-small">
-                    <a href="menu.php" class="category-link">
+                    <a href="<?php echo url('customer_menu'); ?>" class="category-link">
                         <div class="category-image-wrapper">
                             <img src="https://tse3.mm.bing.net/th/id/OIP.WtSmjPF0pPQMOmwb6ZZgTQHaE8?pid=Api&P=0&h=180" alt="Cà Phê" class="category-image">
                         </div>
@@ -39,7 +39,7 @@
                     </a>
                 </div>
                 <div class="category-item category-small">
-                    <a href="menu.php" class="category-link">
+                    <a href="<?php echo url('customer_menu'); ?>" class="category-link">
                         <div class="category-image-wrapper">
                             <img src="https://toplist.vn/images/800px/quan-banh-ngot-tuyet-voi-nhat-hai-phong-149908.jpg" alt="Bánh Ngọt" class="category-image">
                         </div>
@@ -57,10 +57,10 @@
                     $fp_price = isset($fpSizes[$product['ma_sp']]) && !empty($fpSizes[$product['ma_sp']]) ? $fpSizes[$product['ma_sp']][0]['price'] : 0;
                 ?>
                 <div class="featured-product-item">
-                    <a href="product_detail.php?id=<?php echo urlencode($product['ma_sp']); ?>" class="featured-product-link">
+                    <a href="<?php echo url('customer_product', ['id' => $product['ma_sp']]); ?>" class="featured-product-link">
                         <div class="featured-product-image-wrapper">
                             <?php if (!empty($product['hinh_anh'])): ?>
-                                <img src="../uploads/products/<?php echo htmlspecialchars($product['hinh_anh']); ?>" alt="<?php echo htmlspecialchars($product['ten_sp']); ?>" class="featured-product-image">
+                                <img src="uploads/products/<?php echo htmlspecialchars($product['hinh_anh']); ?>" alt="<?php echo htmlspecialchars($product['ten_sp']); ?>" class="featured-product-image">
                             <?php else: ?>
                                 <div class="featured-product-placeholder"><span class="coffee-icon-large">☕</span></div>
                             <?php endif; ?>
@@ -77,10 +77,10 @@
                 <?php endforeach; ?>
             </div>
             <div class="view-all-container">
-                <a href="menu.php" class="view-all-button">XEM TẤT CẢ</a>
+                <a href="<?php echo url('customer_menu'); ?>" class="view-all-button">XEM TẤT CẢ</a>
             </div>
         </div>
     </main>
-    <?php include BASE_PATH . '/includes/footer.php'; ?>
+    <?php require BASE_PATH . '/app/Views/layouts/customer_footer.php'; ?>
 </body>
 </html>

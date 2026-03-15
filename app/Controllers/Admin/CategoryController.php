@@ -16,7 +16,7 @@ class CategoryController extends BaseController {
             session_start();
         }
         if (!isset($_SESSION['role']) || ($_SESSION['role'] != 'admin' && $_SESSION['role'] != 'employee')) {
-            $this->redirect('../auth/admin_login.php');
+            $this->redirect(url('auth_login_admin'));
         }
         requirePermission(PERMISSION_MANAGE_CATEGORIES);
         $this->categoryModel = new CategoryModel();
@@ -39,11 +39,11 @@ class CategoryController extends BaseController {
             if ($id !== '') {
                 $edit_item = $this->categoryModel->getById($id);
                 if (!$edit_item) {
-                    $this->redirect('categories.php');
+                    $this->redirect(url('admin_categories'));
                     return;
                 }
             } else {
-                $this->redirect('categories.php');
+                $this->redirect(url('admin_categories'));
                 return;
             }
         }
@@ -54,6 +54,8 @@ class CategoryController extends BaseController {
             'message' => $message,
             'view' => $view,
             'edit_item' => $edit_item,
+            'current_route' => 'admin_categories',
+            'page_title' => 'Danh mục'
         ]);
     }
 
@@ -69,7 +71,7 @@ class CategoryController extends BaseController {
                 return '<div class="alert alert-error">Vui lòng điền mã và tên danh mục.</div>';
             }
             if ($this->categoryModel->create(['ma_danh_muc' => $ma, 'ten_danh_muc' => $ten, 'mo_ta' => ''])) {
-                $this->redirect('categories.php');
+                $this->redirect(url('admin_categories'));
                 return 'redirect';
             }
             return '<div class="alert alert-error">Lỗi khi thêm danh mục — có thể mã đã tồn tại.</div>';
@@ -81,7 +83,7 @@ class CategoryController extends BaseController {
                 return '<div class="alert alert-error">Dữ liệu không hợp lệ.</div>';
             }
             if ($this->categoryModel->update($id, ['ten_danh_muc' => $ten, 'mo_ta' => ''])) {
-                $this->redirect('categories.php');
+                $this->redirect(url('admin_categories'));
                 return 'redirect';
             }
             return '<div class="alert alert-error">Lỗi khi cập nhật danh mục.</div>';
@@ -90,7 +92,7 @@ class CategoryController extends BaseController {
             $id = isset($_POST['id']) ? trim($_POST['id']) : '';
             if ($id !== '') {
                 $this->categoryModel->delete($id);
-                $this->redirect('categories.php');
+                $this->redirect(url('admin_categories'));
                 return 'redirect';
             }
         }

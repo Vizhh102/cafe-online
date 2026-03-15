@@ -12,7 +12,7 @@ class AccountController extends BaseController {
         session_name('CUSTOMERSESSID');
         if (session_status() === PHP_SESSION_NONE) session_start();
         if (!isset($_SESSION['role']) || $_SESSION['role'] != 'customer') {
-            $this->redirect('../auth/customer_login.php');
+            $this->redirect(url('auth_login_customer'));
         }
         $this->customerModel = new CustomerModel();
     }
@@ -36,9 +36,13 @@ class AccountController extends BaseController {
         }
         $customer = $this->customerModel->getById($ma_kh);
         if (!$customer) {
-            $this->redirect('index.php');
+            $this->redirect(url('customer_home'));
             return;
         }
-        $this->view('customer/account/index', ['customer' => $customer, 'message' => $message]);
+        $this->view('customer/account/index', [
+            'customer' => $customer,
+            'message' => $message,
+            'current_route' => 'customer_account',
+        ]);
     }
 }

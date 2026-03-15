@@ -30,7 +30,7 @@ class ProductController extends BaseController {
         
         // Kiểm tra đăng nhập
         if (!isset($_SESSION['role']) || ($_SESSION['role'] != 'admin' && $_SESSION['role'] != 'employee')) {
-            $this->redirect('../auth/admin_login.php');
+            $this->redirect(url('auth_login_admin'));
         }
         
         // Kiểm tra quyền quản lý sản phẩm
@@ -64,7 +64,9 @@ class ProductController extends BaseController {
         $this->view('admin/products/index', [
             'products' => $products,
             'categories' => $categories,
-            'message' => $message
+            'message' => $message,
+            'current_route' => 'admin_products',
+            'page_title' => 'Sản phẩm'
         ]);
     }
     
@@ -74,7 +76,7 @@ class ProductController extends BaseController {
     public function store() {
         // Chỉ chấp nhận POST
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            $this->redirect('products.php');
+            $this->redirect(url('admin_products'));
         }
         
         // Lấy dữ liệu từ form
@@ -115,7 +117,7 @@ class ProductController extends BaseController {
         }
         
         // Chuyển về trang danh sách
-        $this->redirect('products.php');
+        $this->redirect(url('admin_products'));
     }
     
     /**
@@ -124,7 +126,7 @@ class ProductController extends BaseController {
     public function update() {
         // Chỉ chấp nhận POST
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            $this->redirect('products.php');
+            $this->redirect(url('admin_products'));
         }
         
         $ma_sp = $_POST['ma_sp'];
@@ -169,7 +171,7 @@ class ProductController extends BaseController {
         }
         
         // Chuyển về trang danh sách
-        $this->redirect('products.php');
+        $this->redirect(url('admin_products'));
     }
     
     /**
@@ -178,7 +180,7 @@ class ProductController extends BaseController {
     public function delete() {
         // Chỉ chấp nhận POST
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            $this->redirect('products.php');
+            $this->redirect(url('admin_products'));
         }
         
         $ma_sp = $_POST['ma_sp'];
@@ -199,6 +201,6 @@ class ProductController extends BaseController {
         }
         
         // Chuyển về trang danh sách
-        $this->redirect('products.php');
+        $this->redirect(url('admin_products'));
     }
 }

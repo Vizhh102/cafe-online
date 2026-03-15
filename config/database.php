@@ -80,53 +80,9 @@ function getLogo($path = '../uploads/logos/') {
     return $logoPath;
 }
 
-// Chuẩn hóa và hiển thị thân thiện phương thức thanh toán
+// Hiển thị phương thức thanh toán (chỉ dùng Tiền mặt / COD)
 function formatPaymentLabel($raw) {
-    $value = $raw === null ? '' : trim((string)$raw);
-    // Đơn không lưu phương thức (cũ hoặc COD) → hiển thị Tiền mặt
-    if ($value === '') {
-        return 'Tiền mặt';
-    }
-
-    $p = mb_strtolower($value);
-
-    // Thanh toán khi nhận hàng / COD → hiển thị Tiền mặt
-    if ($p === 'thanh_toan_khi_nhan_hang' || $p === 'cod' || $p === 'thanh toán khi nhận hàng') {
-        return 'Tiền mặt';
-    }
-
-    // Tiền mặt (đơn cũ)
-    if ($p === 'tien_mat' || $p === 'tiền mặt' || $p === 'cash' || $p === 'tm') {
-        return 'Tiền mặt';
-    }
-
-    // Chuyển khoản / ngân hàng
-    $bankKeywords = ['chuyen', 'chuyển', 'bank', 'vietcombank', 'acb', 'techcombank', 'bidv', 'vpbank', 'mbbank', 'agribank', 'sacombank'];
-    foreach ($bankKeywords as $kw) {
-        if (mb_strpos($p, $kw) !== false) {
-            return 'Chuyển khoản';
-        }
-    }
-    if ($p === 'chuyen_khoan' || $p === 'chuyenkhoan' || $p === 'ck') {
-        return 'Chuyển khoản';
-    }
-
-    // Ví điện tử / cổng thanh toán
-    if (mb_strpos($p, 'momo') !== false) {
-        return 'MoMo';
-    }
-    if (mb_strpos($p, 'zalopay') !== false) {
-        return 'ZaloPay';
-    }
-    if (mb_strpos($p, 'vnpay') !== false) {
-        return 'VNPay';
-    }
-    if ($p === 'vi_dien_tu' || $p === 'ví điện tử' || $p === 'vidientu' || $p === 'ewallet') {
-        return 'Ví điện tử';
-    }
-
-    // Mặc định: giữ nguyên (escape khi hiển thị)
-    return $value;
+    return 'Tiền mặt';
 }
 
 /**

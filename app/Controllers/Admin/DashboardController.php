@@ -23,7 +23,7 @@ class DashboardController extends BaseController {
         
         // Kiểm tra đăng nhập
         if (!isset($_SESSION['role']) || ($_SESSION['role'] != 'admin' && $_SESSION['role'] != 'employee')) {
-            $this->redirect('../auth/admin_login.php');
+            $this->redirect(url('auth_login_admin'));
         }
         
         // Kiểm tra quyền xem dashboard
@@ -86,6 +86,10 @@ class DashboardController extends BaseController {
         }
         
         // Hiển thị view
-        $this->view('admin/dashboard/index', ['stats' => $stats]);
+        $this->view('admin/dashboard/index', [
+            'stats' => $stats,
+            'current_route' => 'admin_dashboard',
+            'page_title' => 'Tổng quan'
+        ]);
     }
 }

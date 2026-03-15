@@ -1,6 +1,6 @@
 <?php
-require_once BASE_PATH . '/includes/admin_header.php'; 
-
+require_once BASE_PATH . '/app/Views/layouts/admin_header.php';
+require_once BASE_PATH . '/config/database.php';
 $orderDateCol = columnExists('DON_HANG','ngay_gio') ? 'ngay_gio' : (columnExists('DON_HANG','ngay_dat') ? 'ngay_dat' : null);
 ?>
 	<div class="card">
@@ -38,7 +38,7 @@ $orderDateCol = columnExists('DON_HANG','ngay_gio') ? 'ngay_gio' : (columnExists
 					</td>
 					<td>
 						<?php $linkId = isset($o['ma_don_hang']) ? $o['ma_don_hang'] : (isset($o['ma_don']) ? $o['ma_don'] : ''); ?>
-						<a href="orders.php?id=<?php echo urlencode($linkId); ?>" class="btn btn-small">Xem</a>
+						<a href="<?php echo url('admin_order_show', ['id' => $linkId]); ?>" class="btn btn-small">Xem</a>
 						<form method="post" style="display:inline-block;margin-left:6px;">
 							<input type="hidden" name="action" value="update_status">
 							<input type="hidden" name="id" value="<?php echo htmlspecialchars($linkId); ?>">
@@ -65,5 +65,5 @@ $orderDateCol = columnExists('DON_HANG','ngay_gio') ? 'ngay_gio' : (columnExists
 			</tbody>
 		</table>
 	</div>
-<?php require_once BASE_PATH . '/includes/admin_footer.php'; ?>
+<?php require_once BASE_PATH . '/app/Views/layouts/admin_footer.php'; ?>
 

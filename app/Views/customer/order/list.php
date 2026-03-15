@@ -4,16 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Đơn hàng của tôi - The Caffe</title>
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <?php include BASE_PATH . '/includes/header.php'; ?>
+    <?php require BASE_PATH . '/app/Views/layouts/customer_header.php'; ?>
     <main>
         <div class="container">
             <div class="card">
                 <h2>Danh sách đơn hàng</h2>
                 <?php if (empty($orders)): ?>
-                    <p>Bạn chưa có đơn hàng nào. <a href="menu.php">Đặt món ngay</a></p>
+                    <p>Bạn chưa có đơn hàng nào. <a href="<?php echo url('customer_menu'); ?>">Đặt món ngay</a></p>
                 <?php else: ?>
                 <table>
                     <thead>
@@ -41,7 +41,7 @@
                             <td><?php echo htmlspecialchars($status); ?></td>
                             <td><?php echo htmlspecialchars($payment); ?></td>
                             <td><?php echo $total; ?></td>
-                            <td><a href="orders.php?id=<?php echo urlencode($id); ?>" class="btn btn-small">Xem chi tiết</a></td>
+                            <td><a href="<?php echo url('customer_orders', ['id' => $id]); ?>" class="btn btn-small">Xem chi tiết</a></td>
                         </tr>
                         <?php endforeach; ?>
                     </tbody>
@@ -88,11 +88,11 @@
                     </tbody>
                 </table>
                 <?php endif; ?>
-                <p><a href="orders.php">&larr; Quay lại danh sách</a></p>
+                <p><a href="<?php echo url('customer_orders'); ?>">&larr; Quay lại danh sách</a></p>
             </div>
             <?php endif; ?>
         </div>
     </main>
-    <?php include BASE_PATH . '/includes/footer.php'; ?>
+    <?php require BASE_PATH . '/app/Views/layouts/customer_footer.php'; ?>
 </body>
 </html>

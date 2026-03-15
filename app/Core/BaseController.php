@@ -6,15 +6,12 @@
 class BaseController {
     
     /**
-     * Hiển thị view (giao diện)
-     * @param string $viewName Tên file view (không có đuôi .php)
-     * @param array $data Mảng dữ liệu truyền vào view
+     * Hiển thị view (giao diện) – đúng chuẩn MVC: View chỉ nhận dữ liệu, không truy vấn DB.
+     * @param string $viewName Tên file view (không có đuôi .php), vd: 'customer/home/index'
+     * @param array $data Mảng dữ liệu truyền vào view (trong view dùng biến cùng tên key)
      */
     protected function view($viewName, $data = []) {
-        // Chuyển mảng thành biến để dùng trong view
         extract($data);
-        
-        // Đường dẫn đến file view
         $viewPath = __DIR__ . '/../Views/' . $viewName . '.php';
         
         // Kiểm tra file có tồn tại không
@@ -44,18 +41,5 @@ class BaseController {
         header('Content-Type: application/json');
         echo json_encode($data);
         exit();
-    }
-    
-    /**
-     * Kiểm tra đăng nhập
-     * @param string|null $role Vai trò yêu cầu (admin, employee, customer)
-     */
-    protected function requireAuth($role = null) {
-        if (!isset($_SESSION['user_id'])) {
-            $this->redirect('../auth/admin_login.php');
-        }
-        if ($role && (!isset($_SESSION['role']) || $_SESSION['role'] != $role)) {
-            $this->redirect('../auth/admin_login.php');
-        }
     }
 }

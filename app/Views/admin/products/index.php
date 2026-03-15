@@ -1,5 +1,5 @@
 <?php
-require_once BASE_PATH . '/includes/admin_header.php'; ?>
+require_once BASE_PATH . '/app/Views/layouts/admin_header.php'; ?>
             <?php echo $message ?? ''; ?>
             
             <div class="card">
@@ -37,7 +37,7 @@ require_once BASE_PATH . '/includes/admin_header.php'; ?>
                             <td><?php echo $product['ten_sp']; ?></td>
                             <td>
                                 <?php if (!empty($product['hinh_anh'])): ?>
-                                    <img src="../uploads/products/<?php echo htmlspecialchars($product['hinh_anh']); ?>" alt="Ảnh sản phẩm" style="width: 60px; height: 60px; object-fit: cover; border-radius: 4px;">
+                                    <img src="uploads/products/<?php echo htmlspecialchars($product['hinh_anh']); ?>" alt="Ảnh sản phẩm" style="width: 60px; height: 60px; object-fit: cover; border-radius: 4px;">
                                 <?php else: ?>
                                     <span>Không có</span>
                                 <?php endif; ?>
@@ -76,8 +76,7 @@ require_once BASE_PATH . '/includes/admin_header.php'; ?>
                             </td>
                             <td class="table-actions">
                                 <button class="btn btn-small btn-secondary" onclick='editProduct(<?php echo json_encode($product); ?>)'>Sửa</button>
-                                <form method="POST" style="display: inline;" onsubmit="return confirm('Bạn có chắc muốn xóa?')">
-                                    <input type="hidden" name="action" value="delete">
+                                <form method="POST" action="<?php echo url('admin_product_delete'); ?>" style="display: inline;" onsubmit="return confirm('Bạn có chắc muốn xóa?')">
                                     <input type="hidden" name="ma_sp" value="<?php echo $product['ma_sp']; ?>">
                                     <button type="submit" class="btn btn-small btn-danger">Xóa</button>
                                 </form>
@@ -97,8 +96,7 @@ require_once BASE_PATH . '/includes/admin_header.php'; ?>
                 <h2>Thêm sản phẩm mới</h2>
                 <span class="close" onclick="closeModal('addModal')">&times;</span>
             </div>
-            <form method="POST" enctype="multipart/form-data">
-                <input type="hidden" name="action" value="add">
+            <form method="POST" action="<?php echo url('admin_product_store'); ?>" enctype="multipart/form-data">
                 
                 <div class="form-group">
                     <label>Mã sản phẩm</label>
@@ -158,8 +156,7 @@ require_once BASE_PATH . '/includes/admin_header.php'; ?>
                 <h2>Sửa sản phẩm</h2>
                 <span class="close" onclick="closeModal('editModal')">&times;</span>
             </div>
-            <form method="POST" enctype="multipart/form-data">
-                <input type="hidden" name="action" value="edit">
+            <form method="POST" action="<?php echo url('admin_product_update'); ?>" enctype="multipart/form-data">
                 <input type="hidden" name="ma_sp" id="edit_ma_sp">
                 <input type="hidden" name="hinh_anh_cu" id="edit_hinh_anh_cu">
                 
@@ -297,5 +294,5 @@ require_once BASE_PATH . '/includes/admin_header.php'; ?>
             if (editForm) editForm.addEventListener('submit', function(){ serializeSizePrices('edit'); });
         });
     </script>
-<?php require_once BASE_PATH . '/includes/admin_footer.php'; ?>
+<?php require_once BASE_PATH . '/app/Views/layouts/admin_footer.php'; ?>
 

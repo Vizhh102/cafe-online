@@ -4,16 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo htmlspecialchars($product['ten_sp']); ?> - The Caffe</title>
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-<?php include BASE_PATH . '/includes/header.php'; ?>
+<?php require BASE_PATH . '/app/Views/layouts/customer_header.php'; ?>
 <div class="container" style="padding:20px;">
     <a class="back-button" href="menu.php">&larr; Quay lại</a>
     <div class="product-detail" style="margin-top:10px;">
         <div class="product-image">
             <?php if (!empty($product['hinh_anh'])): ?>
-                <img src="../uploads/products/<?php echo htmlspecialchars($product['hinh_anh']); ?>" alt="<?php echo htmlspecialchars($product['ten_sp']); ?>">
+                <img src="uploads/products/<?php echo htmlspecialchars($product['hinh_anh']); ?>" alt="<?php echo htmlspecialchars($product['ten_sp']); ?>">
             <?php else: ?>
                 <div class="image-placeholder">Không có hình</div>
             <?php endif; ?>
@@ -45,6 +45,6 @@
         </div>
     </div>
 </div>
-<?php include BASE_PATH . '/includes/footer.php'; ?>
+<?php require BASE_PATH . '/app/Views/layouts/customer_footer.php'; ?>
 </body>
 </html>

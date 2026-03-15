@@ -14,7 +14,7 @@ class CustomerProductController extends BaseController {
         session_name('CUSTOMERSESSID');
         if (session_status() === PHP_SESSION_NONE) session_start();
         if (!isset($_SESSION['role']) || $_SESSION['role'] != 'customer') {
-            $this->redirect('../auth/customer_login.php');
+            $this->redirect(url('auth_login_customer'));
         }
         $this->productModel = new ProductModel();
         $this->categoryModel = new CategoryModel();
@@ -65,10 +65,14 @@ class CustomerProductController extends BaseController {
             $key = $ma_sp . '|' . $size;
             if (!isset($_SESSION['cart'])) $_SESSION['cart'] = [];
             $_SESSION['cart'][$key] = ($_SESSION['cart'][$key] ?? 0) + $quantity;
-            $this->redirect('cart.php');
+            $this->redirect(url('customer_cart'));
             return;
         }
 
-        $this->view('customer/product/detail', ['product' => $product, 'sizes' => $sizes]);
+        $this->view('customer/product/detail', [
+            'product' => $product,
+            'sizes' => $sizes,
+            'current_route' => 'customer_product',
+        ]);
     }
 }

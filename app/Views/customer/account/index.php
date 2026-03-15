@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tài khoản của tôi - The Caffe</title>
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <?php include BASE_PATH . '/includes/header.php'; ?>
+    <?php require BASE_PATH . '/app/Views/layouts/customer_header.php'; ?>
     <main>
         <div class="container">
             <div class="card">
@@ -32,12 +32,12 @@
                     </div>
                     <div class="form-actions">
                         <button type="submit" class="btn">Cập nhật</button>
-                        <a href="../auth/logout.php" class="btn btn-outline">Đăng xuất</a>
+                        <a href="<?php echo url('auth_logout'); ?>" class="btn btn-outline">Đăng xuất</a>
                     </div>
                 </form>
             </div>
         </div>
     </main>
-    <?php include BASE_PATH . '/includes/footer.php'; ?>
+    <?php require BASE_PATH . '/app/Views/layouts/customer_footer.php'; ?>
 </body>
 </html>

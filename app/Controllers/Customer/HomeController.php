@@ -14,7 +14,7 @@ class HomeController extends BaseController {
         session_name('CUSTOMERSESSID');
         if (session_status() === PHP_SESSION_NONE) session_start();
         if (!isset($_SESSION['role']) || $_SESSION['role'] != 'customer') {
-            $this->redirect('../auth/customer_login.php');
+            $this->redirect(url('auth_login_customer'));
         }
         $this->productModel = new ProductModel();
         $this->categoryModel = new CategoryModel();
@@ -32,6 +32,7 @@ class HomeController extends BaseController {
         $this->view('customer/home/index', [
             'featured_products' => $featured_products,
             'fpSizes' => $fpSizes,
+            'current_route' => 'customer_home',
         ]);
     }
 }
