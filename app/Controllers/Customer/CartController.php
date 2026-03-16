@@ -99,17 +99,20 @@ class CartController extends BaseController {
             $_SESSION['voucher_message'] = '<div class="alert alert-info">Đã xóa voucher.</div>';
             return '';
         }
-        $v = fetchOne("SELECT * FROM VOUCHER WHERE code = '" . $code . "' LIMIT 1");
+        $v = fetchOne("SELECT * FROM voucher WHERE code = '" . $code . "' LIMIT 1");
         if (!$v) {
             $_SESSION['voucher_message'] = '<div class="alert alert-error">Mã voucher không tồn tại.</div>';
             return '';
         }
         $today = date('Y-m-d');
-        if (!empty($v['start_date']) && $today < $v['start_date']) {
+        // Hỗ trợ cả start_date / ngay_bat_dau
+        $startDate = $v['start_date'] ?? ($v['ngay_bat_dau'] ?? null);
+        $endDate   = $v['end_date'] ?? ($v['ngay_ket_thuc'] ?? null);
+        if (!empty($startDate) && $today < $startDate) {
             $_SESSION['voucher_message'] = '<div class="alert alert-error">Voucher chưa tới ngày áp dụng.</div>';
             return '';
         }
-        if (!empty($v['end_date']) && $today > $v['end_date']) {
+        if (!empty($endDate) && $today > $endDate) {
             $_SESSION['voucher_message'] = '<div class="alert alert-error">Voucher đã hết hạn.</div>';
             return '';
         }
@@ -174,7 +177,7 @@ class CartController extends BaseController {
         $display_discount = 0;
         if (isset($_SESSION['applied_voucher']) && is_array($_SESSION['applied_voucher'])) {
             $v = $_SESSION['applied_voucher'];
-            $v_db = isset($v['code']) ? fetchOne("SELECT * FROM VOUCHER WHERE code = '" . escapeString($v['code']) . "' LIMIT 1") : null;
+            $v_db = isset($v['code']) ? fetchOne("SELECT * FROM voucher WHERE code = '" . escapeString($v['code']) . "' LIMIT 1") : null;
             if ($v_db) {
                 $display_voucher = $v_db['code'];
                 if (isset($v_db['loai']) && $v_db['loai'] === 'phan_tram' && isset($v_db['gia_tri'])) {
@@ -186,7 +189,7 @@ class CartController extends BaseController {
             }
         }
         $final_total = $total - $display_discount;
-        $applied_voucher_for_js = $display_voucher ? fetchOne("SELECT * FROM VOUCHER WHERE code = '" . escapeString($display_voucher) . "' LIMIT 1") : null;
+        $applied_voucher_for_js = $display_voucher ? fetchOne("SELECT * FROM voucher WHERE code = '" . escapeString($display_voucher) . "' LIMIT 1") : null;
         return [$cart_items, $total, $sizesMap, $display_voucher, $display_discount, $final_total, $applied_voucher_for_js];
     }
 }

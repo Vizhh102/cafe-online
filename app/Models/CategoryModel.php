@@ -11,7 +11,7 @@ class CategoryModel extends BaseModel {
      * @return array Danh sách danh mục
      */
     public function getAll() {
-        $sql = "SELECT * FROM DANH_MUC ORDER BY ma_danh_muc";
+        $sql = "SELECT * FROM danh_muc ORDER BY ma_danh_muc";
         return $this->fetchAll($sql);
     }
     
@@ -22,7 +22,7 @@ class CategoryModel extends BaseModel {
      */
     public function getById($ma_danh_muc) {
         $ma_danh_muc = $this->escapeString($ma_danh_muc);
-        $sql = "SELECT * FROM DANH_MUC WHERE ma_danh_muc = '$ma_danh_muc'";
+        $sql = "SELECT * FROM danh_muc WHERE ma_danh_muc = '$ma_danh_muc'";
         return $this->fetchOne($sql);
     }
     
@@ -35,8 +35,13 @@ class CategoryModel extends BaseModel {
         $ma_danh_muc = $this->escapeString($data['ma_danh_muc']);
         $ten_danh_muc = $this->escapeString($data['ten_danh_muc']);
         $mo_ta = isset($data['mo_ta']) ? $this->escapeString($data['mo_ta']) : '';
-        
-        $sql = "INSERT INTO DANH_MUC (ma_danh_muc, ten_danh_muc, mo_ta) VALUES ('$ma_danh_muc', '$ten_danh_muc', '$mo_ta')";
+
+        // Một số database không có cột mo_ta → kiểm tra trước khi chèn
+        if ($this->columnExists('danh_muc', 'mo_ta')) {
+            $sql = "INSERT INTO danh_muc (ma_danh_muc, ten_danh_muc, mo_ta) VALUES ('$ma_danh_muc', '$ten_danh_muc', '$mo_ta')";
+        } else {
+            $sql = "INSERT INTO danh_muc (ma_danh_muc, ten_danh_muc) VALUES ('$ma_danh_muc', '$ten_danh_muc')";
+        }
         return $this->executeQuery($sql);
     }
     
@@ -50,8 +55,12 @@ class CategoryModel extends BaseModel {
         $ma_danh_muc = $this->escapeString($ma_danh_muc);
         $ten_danh_muc = $this->escapeString($data['ten_danh_muc']);
         $mo_ta = isset($data['mo_ta']) ? $this->escapeString($data['mo_ta']) : '';
-        
-        $sql = "UPDATE DANH_MUC SET ten_danh_muc = '$ten_danh_muc', mo_ta = '$mo_ta' WHERE ma_danh_muc = '$ma_danh_muc'";
+
+        if ($this->columnExists('danh_muc', 'mo_ta')) {
+            $sql = "UPDATE danh_muc SET ten_danh_muc = '$ten_danh_muc', mo_ta = '$mo_ta' WHERE ma_danh_muc = '$ma_danh_muc'";
+        } else {
+            $sql = "UPDATE danh_muc SET ten_danh_muc = '$ten_danh_muc' WHERE ma_danh_muc = '$ma_danh_muc'";
+        }
         return $this->executeQuery($sql);
     }
     
@@ -62,7 +71,7 @@ class CategoryModel extends BaseModel {
      */
     public function delete($ma_danh_muc) {
         $ma_danh_muc = $this->escapeString($ma_danh_muc);
-        $sql = "DELETE FROM DANH_MUC WHERE ma_danh_muc = '$ma_danh_muc'";
+        $sql = "DELETE FROM danh_muc WHERE ma_danh_muc = '$ma_danh_muc'";
         return $this->executeQuery($sql);
     }
 }

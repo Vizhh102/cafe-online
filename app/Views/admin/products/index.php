@@ -1,5 +1,5 @@
 <?php
-require_once BASE_PATH . '/app/Views/layouts/admin_header.php'; ?>
+require_once __DIR__ . '/../../layouts/admin_header.php'; ?>
             <?php echo $message ?? ''; ?>
             
             <div class="card">
@@ -134,8 +134,8 @@ require_once BASE_PATH . '/app/Views/layouts/admin_header.php'; ?>
                 <div class="form-group">
                     <label>Trạng thái</label>
                     <select name="trang_thai">
-                        <option value="Hoạt động">Hoạt động</option>
-                        <option value="Ngưng hoạt động">Ngưng hoạt động</option>
+                        <option value="ban">Hoạt động</option>
+                        <option value="ngung_ban">Ngừng hoạt động</option>
                     </select>
                 </div>
 
@@ -294,5 +294,5 @@ require_once BASE_PATH . '/app/Views/layouts/admin_header.php'; ?>
             if (editForm) editForm.addEventListener('submit', function(){ serializeSizePrices('edit'); });
         });
     </script>
-<?php require_once BASE_PATH . '/app/Views/layouts/admin_footer.php'; ?>
+<?php require_once __DIR__ . '/../../layouts/admin_footer.php'; ?>
 

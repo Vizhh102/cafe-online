@@ -15,7 +15,6 @@ class DashboardController extends BaseController {
      * - Kiểm tra quyền
      */
     public function __construct() {
-        // Bắt đầu session cho admin
         session_name('ADMINSESSID');
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
@@ -38,18 +37,18 @@ class DashboardController extends BaseController {
         $stats = [];
         
         // Tổng số sản phẩm
-        $res = fetchOne("SELECT COUNT(*) as total FROM SAN_PHAM");
+        $res = fetchOne("SELECT COUNT(*) as total FROM san_pham");
         $stats['products'] = intval($res['total'] ?? 0);
         
         // Tổng số khách hàng
-        $res = fetchOne("SELECT COUNT(*) as total FROM KHACH_HANG");
+        $res = fetchOne("SELECT COUNT(*) as total FROM khach_hang");
         $stats['customers'] = intval($res['total'] ?? 0);
         
         // Tìm các cột có thể dùng làm mã đơn hàng
         $orderCandidates = ['ma_don','ma_don_hang','ma_dh','id','don_hang_id','order_id','code'];
         $orderIdCol = null;
         foreach ($orderCandidates as $c) {
-            if (columnExists('DON_HANG', $c)) {
+            if (columnExists('don_hang', $c)) {
                 $orderIdCol = $c;
                 break;
             }
@@ -59,7 +58,7 @@ class DashboardController extends BaseController {
         $detailCandidates = ['ma_don','ma_don_hang','ma_dh','don_hang_id','order_id'];
         $detailFkCol = null;
         foreach ($detailCandidates as $c) {
-            if (columnExists('CHI_TIET_DON_HANG', $c)) {
+            if (columnExists('chi_tiet_don_hang', $c)) {
                 $detailFkCol = $c;
                 break;
             }
@@ -67,17 +66,17 @@ class DashboardController extends BaseController {
         
         // Tổng số đơn hàng
         if ($detailFkCol) {
-            $q = "SELECT COUNT(DISTINCT `" . $detailFkCol . "`) as total FROM CHI_TIET_DON_HANG WHERE `" . $detailFkCol . "` IS NOT NULL";
+            $q = "SELECT COUNT(DISTINCT `" . $detailFkCol . "`) as total FROM chi_tiet_don_hang WHERE `" . $detailFkCol . "` IS NOT NULL";
             $r = fetchOne($q);
             $stats['orders'] = intval($r['total'] ?? 0);
         } else {
-            $r = fetchOne("SELECT COUNT(*) as total FROM DON_HANG");
+            $r = fetchOne("SELECT COUNT(*) as total FROM don_hang");
             $stats['orders'] = intval($r['total'] ?? 0);
         }
         
         // Tổng doanh thu và số món đã bán
         if ($detailFkCol) {
-            $revRow = fetchOne("SELECT SUM(so_luong * don_gia) as total, SUM(so_luong) as items FROM CHI_TIET_DON_HANG");
+            $revRow = fetchOne("SELECT SUM(so_luong * don_gia) as total, SUM(so_luong) as items FROM chi_tiet_don_hang");
             $stats['revenue'] = floatval($revRow['total'] ?? 0);
             $stats['items_sold'] = intval($revRow['items'] ?? 0);
         } else {

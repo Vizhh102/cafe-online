@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trang chủ - The Caffe</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    <?php require BASE_PATH . '/app/Views/layouts/customer_header.php'; ?>
+    <?php require __DIR__ . '/../../layouts/customer_header.php'; ?>
     <main style="padding: 0;">
         <div class="promo-banner-full">
             <a href="<?php echo url('customer_menu'); ?>" class="banner-link-full">
@@ -79,8 +79,31 @@
             <div class="view-all-container">
                 <a href="<?php echo url('customer_menu'); ?>" class="view-all-button">XEM TẤT CẢ</a>
             </div>
+
+            <section class="news-promo-section">
+                <div class="news-promo-block">
+                    <div class="news-promo-image-wrap">
+                        <img src="https://tse3.mm.bing.net/th/id/OIP.k8bmk72czJoH7yU8xdPY4QHaEK?pid=Api&P=0&h=180" alt="Tin tức" class="news-promo-img">
+                    </div>
+                    <div class="news-promo-content">
+                        <h2 class="news-promo-title">Tin tức</h2>
+                        <p class="news-promo-desc">Cập nhật tin tức, sự kiện và hoạt động mới nhất từ The Caffe. Theo dõi để không bỏ lỡ những thông tin hấp dẫn.</p>
+                        <a href="#" class="news-promo-btn">XEM CHI TIẾT</a>
+                    </div>
+                </div>
+                <div class="news-promo-block news-promo-block-reverse">
+                    <div class="news-promo-image-wrap">
+                        <img src="https://tse4.mm.bing.net/th/id/OIP.1cI4FbwggTAKBCRh67TslQHaFj?pid=Api&P=0&h=180" alt="Khuyến mãi" class="news-promo-img">
+                    </div>
+                    <div class="news-promo-content">
+                        <h2 class="news-promo-title">Khuyến mãi</h2>
+                        <p class="news-promo-desc">Ưu đãi đặc biệt, giảm giá và chương trình khách hàng thân thiết. Xem ngay các chương trình đang diễn ra.</p>
+                        <a href="#" class="news-promo-btn">XEM CHI TIẾT</a>
+                    </div>
+                </div>
+            </section>
         </div>
     </main>
-    <?php require BASE_PATH . '/app/Views/layouts/customer_footer.php'; ?>
+    <?php require __DIR__ . '/../../layouts/customer_footer.php'; ?>
 </body>
 </html>

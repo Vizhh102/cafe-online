@@ -1,5 +1,5 @@
 <?php
-require_once BASE_PATH . '/app/Views/layouts/admin_header.php'; ?>
+require_once __DIR__ . '/../../layouts/admin_header.php'; ?>
             <div class="admin-card">
                 <h2 class="admin-card-title">Thống kê tổng quan</h2>
                 <div class="admin-stats-grid">
@@ -33,5 +33,5 @@ require_once BASE_PATH . '/app/Views/layouts/admin_header.php'; ?>
                     </div>
                 </div>
             </div>
-<?php require_once BASE_PATH . '/app/Views/layouts/admin_footer.php'; ?>
+<?php require_once __DIR__ . '/../../layouts/admin_footer.php'; ?>
 

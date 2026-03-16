@@ -5,9 +5,9 @@
  */
 $current_route = $current_route ?? 'admin_dashboard';
 $page_title = $page_title ?? 'Tổng quan';
-require_once BASE_PATH . '/config/database.php';
-require_once BASE_PATH . '/config/permissions.php';
-$logoPath = getLogo(BASE_PATH . '/uploads/logos/');
+require_once __DIR__ . '/../../../config/database.php';
+require_once __DIR__ . '/../../../config/permissions.php';
+$logoPath = getLogo(__DIR__ . '/../../../uploads/logos/');
 $logoUrl = $logoPath ? ('uploads/logos/' . basename($logoPath)) : '';
 $is_admin = isAdmin();
 ?>
@@ -17,8 +17,8 @@ $is_admin = isAdmin();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo htmlspecialchars($page_title); ?> - The Caffe Admin</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/admin.css">
 </head>
 <body class="admin-body">
     <header class="admin-top-header">

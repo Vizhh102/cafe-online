@@ -1290,157 +1290,103 @@ footer,
     box-shadow: var(--shadow-md);
 }
 
-/* News and Promotions Section */
+/* Tin tức và Khuyến mãi - layout xen kẽ (ảnh trái/phải) */
 .news-promo-section {
-    padding: 80px 20px;
+    padding: 60px 0 80px;
     max-width: 1200px;
     margin: 0 auto;
 }
 
-.news-promo-subtitle {
-    text-align: center;
-    font-size: 18px;
-    color: #8B6F47;
-    margin: 0 0 15px 0;
-    font-weight: 500;
-}
-
-.news-promo-title {
-    text-align: center;
-    font-size: 42px;
-    font-weight: 700;
-    color: #333;
-    margin: 0 0 50px 0;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-}
-
-.news-promo-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 30px;
-}
-
-.news-promo-card {
+.news-promo-block {
     display: flex;
-    flex-direction: column;
-    background: white;
-    border-radius: 12px;
+    align-items: stretch;
+    gap: 0;
+    margin-bottom: 40px;
+    background: var(--color-bg-card);
+    border-radius: var(--radius-lg);
     overflow: hidden;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    transition: transform 0.3s, box-shadow 0.3s;
-    text-decoration: none;
-    color: inherit;
+    box-shadow: var(--shadow-md);
 }
 
-.news-promo-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+.news-promo-block:last-child {
+    margin-bottom: 0;
 }
 
-.news-promo-image-wrapper {
-    width: 100%;
-    height: 300px;
-    overflow: hidden;
-    background: #f5f5f5;
-    position: relative;
+.news-promo-block-reverse {
+    flex-direction: row-reverse;
 }
 
-.news-promo-image {
+.news-promo-image-wrap {
+    flex: 0 0 50%;
+    min-height: 280px;
+    background: var(--color-border);
+}
+
+.news-promo-img {
     width: 100%;
     height: 100%;
+    min-height: 280px;
     object-fit: cover;
-    transition: transform 0.3s;
-}
-
-.news-promo-card:hover .news-promo-image {
-    transform: scale(1.05);
+    display: block;
 }
 
 .news-promo-content {
-    padding: 25px;
     flex: 1;
+    padding: 40px 48px;
     display: flex;
     flex-direction: column;
+    justify-content: center;
 }
 
-.news-promo-card-title {
-    font-size: 20px;
+.news-promo-section .news-promo-title {
+    font-size: 1.75rem;
     font-weight: 700;
-    color: #333;
-    margin: 0 0 15px 0;
-    line-height: 1.4;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+    color: var(--color-text);
+    margin: 0 0 16px 0;
+    text-align: left;
+    text-transform: none;
+    letter-spacing: 0;
 }
 
-.news-promo-card-description {
-    font-size: 15px;
-    line-height: 1.6;
-    color: #666;
-    margin: 0;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    flex: 1;
+.news-promo-desc {
+    color: var(--color-text-muted);
+    margin: 0 0 24px 0;
+    line-height: 1.7;
+    font-size: 1rem;
 }
 
-/* Responsive News and Promotions */
-@media (max-width: 968px) {
-    .news-promo-grid {
-        gap: 25px;
-    }
-    
-    .news-promo-title {
-        font-size: 36px;
-    }
-    
-    .news-promo-image-wrapper {
-        height: 250px;
-    }
+.news-promo-btn {
+    display: inline-block;
+    padding: 12px 28px;
+    background: var(--color-primary-dark);
+    color: #fff;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: var(--radius);
+    transition: background 0.25s, transform 0.2s;
+    align-self: flex-start;
+}
+
+.news-promo-btn:hover {
+    background: var(--color-primary);
+    color: #fff;
+    transform: translateY(-2px);
 }
 
 @media (max-width: 768px) {
-    .news-promo-grid {
-        grid-template-columns: 1fr;
-        gap: 25px;
+    .news-promo-block,
+    .news-promo-block-reverse {
+        flex-direction: column;
     }
-    
-    .news-promo-title {
-        font-size: 32px;
+    .news-promo-image-wrap {
+        flex: none;
+        min-height: 200px;
     }
-    
-    .news-promo-image-wrapper {
-        height: 280px;
+    .news-promo-img {
+        min-height: 200px;
     }
-    
-    .news-promo-card-title {
-        font-size: 18px;
-    }
-}
-
-@media (max-width: 480px) {
-    .news-promo-title {
-        font-size: 28px;
-    }
-    
-    .news-promo-image-wrapper {
-        height: 250px;
-    }
-    
     .news-promo-content {
-        padding: 20px;
-    }
-    
-    .news-promo-card-title {
-        font-size: 16px;
-    }
-    
-    .news-promo-card-description {
-        font-size: 14px;
+        padding: 28px 24px;
     }
 }
 

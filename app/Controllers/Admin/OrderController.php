@@ -20,7 +20,6 @@ class OrderController extends BaseController {
      * - Khởi tạo Model
      */
     public function __construct() {
-        // Bắt đầu session cho admin
         session_name('ADMINSESSID');
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
@@ -53,7 +52,10 @@ class OrderController extends BaseController {
         }
         
         // Tên cột ngày đặt (để view chỉ hiển thị, không gọi DB)
-        $orderDateCol = columnExists('DON_HANG', 'ngay_gio') ? 'ngay_gio' : (columnExists('DON_HANG', 'ngay_dat') ? 'ngay_dat' : null);
+        // Lưu ý: trên hosting Linux, tên bảng phân biệt hoa/thường → dùng 'don_hang'
+        $orderDateCol = columnExists('don_hang', 'ngay_gio')
+            ? 'ngay_gio'
+            : (columnExists('don_hang', 'ngay_dat') ? 'ngay_dat' : null);
         $this->view('admin/orders/index', [
             'orders' => $orders,
             'message' => $message,
@@ -85,7 +87,9 @@ class OrderController extends BaseController {
         }
         
         // Tên cột ngày đặt (để view chỉ hiển thị)
-        $orderDateCol = columnExists('DON_HANG', 'ngay_gio') ? 'ngay_gio' : (columnExists('DON_HANG', 'ngay_dat') ? 'ngay_dat' : null);
+        $orderDateCol = columnExists('don_hang', 'ngay_gio')
+            ? 'ngay_gio'
+            : (columnExists('don_hang', 'ngay_dat') ? 'ngay_dat' : null);
         $this->view('admin/orders/show', [
             'order' => $order,
             'items' => $items,

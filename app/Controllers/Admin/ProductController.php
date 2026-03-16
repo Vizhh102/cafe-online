@@ -22,7 +22,6 @@ class ProductController extends BaseController {
      * - Khởi tạo các Models
      */
     public function __construct() {
-        // Bắt đầu session cho admin
         session_name('ADMINSESSID');
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
@@ -86,7 +85,8 @@ class ProductController extends BaseController {
             'ma_danh_muc' => $_POST['ma_danh_muc'],
             'mo_ta' => $_POST['mo_ta'] ?? '',
             'ton_kho' => $_POST['ton_kho'] ?? 0,
-            'trang_thai' => $_POST['trang_thai'] ?? 'Hoạt động',
+            // Giá trị submit là 'ban' / 'ngung_ban' để khớp ENUM trong DB
+            'trang_thai' => $_POST['trang_thai'] ?? 'ban',
             'gia_size' => $_POST['gia_size'] ?? ''
         ];
         
@@ -137,7 +137,7 @@ class ProductController extends BaseController {
             'ma_danh_muc' => $_POST['ma_danh_muc'],
             'mo_ta' => $_POST['mo_ta'] ?? '',
             'ton_kho' => $_POST['ton_kho'] ?? 0,
-            'trang_thai' => $_POST['trang_thai'] ?? 'Hoạt động',
+            'trang_thai' => $_POST['trang_thai'] ?? 'ban',
             'gia_size' => $_POST['gia_size'] ?? ''
         ];
         

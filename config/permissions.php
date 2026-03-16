@@ -59,12 +59,12 @@ function getUserPermissions() {
         $ma_nv = $_SESSION['user_id'];
         
         // Kiểm tra xem cột quyen có tồn tại không bằng cách query an toàn
-        $sql = "SHOW COLUMNS FROM NHAN_VIEN LIKE 'quyen'";
+        $sql = "SHOW COLUMNS FROM nhan_vien LIKE 'quyen'";
         $column_exists = fetchOne($sql);
         
         if ($column_exists) {
             // Cột tồn tại, lấy quyền từ database
-            $sql = "SELECT quyen FROM NHAN_VIEN WHERE ma_nv = '$ma_nv'";
+            $sql = "SELECT quyen FROM nhan_vien WHERE ma_nv = '$ma_nv'";
             $result = fetchOne($sql);
             
             if ($result && isset($result['quyen']) && $result['quyen'] !== null && $result['quyen'] !== '') {
@@ -80,7 +80,7 @@ function getUserPermissions() {
                 global $employee_permissions;
                 $permissions_json = json_encode($employee_permissions);
                 $permissions_json = escapeString($permissions_json);
-                $update_sql = "UPDATE NHAN_VIEN SET quyen = '$permissions_json' WHERE ma_nv = '$ma_nv'";
+                $update_sql = "UPDATE nhan_vien SET quyen = '$permissions_json' WHERE ma_nv = '$ma_nv'";
                 executeQuery($update_sql);
                 $_SESSION['permissions'] = $employee_permissions;
                 return $employee_permissions;
@@ -138,16 +138,16 @@ function saveEmployeePermissions($ma_nv, $permissions) {
     try {
         $permissions_json = json_encode($permissions);
         $permissions_json = escapeString($permissions_json);
-        $sql = "UPDATE NHAN_VIEN SET quyen = '$permissions_json' WHERE ma_nv = '$ma_nv'";
+        $sql = "UPDATE nhan_vien SET quyen = '$permissions_json' WHERE ma_nv = '$ma_nv'";
         $result = executeQuery($sql);
         
         // Nếu query thất bại, có thể cột chưa tồn tại
         if (!$result) {
             // Thử thêm cột
-            $alter_sql = "ALTER TABLE NHAN_VIEN ADD COLUMN quyen TEXT NULL";
+            $alter_sql = "ALTER TABLE nhan_vien ADD COLUMN quyen TEXT NULL";
             executeQuery($alter_sql);
             // Thử lại
-            $sql = "UPDATE NHAN_VIEN SET quyen = '$permissions_json' WHERE ma_nv = '$ma_nv'";
+            $sql = "UPDATE nhan_vien SET quyen = '$permissions_json' WHERE ma_nv = '$ma_nv'";
             return executeQuery($sql);
         }
         
@@ -155,12 +155,12 @@ function saveEmployeePermissions($ma_nv, $permissions) {
     } catch (Exception $e) {
         // Nếu có lỗi, thử thêm cột
         try {
-            $alter_sql = "ALTER TABLE NHAN_VIEN ADD COLUMN quyen TEXT NULL";
+            $alter_sql = "ALTER TABLE nhan_vien ADD COLUMN quyen TEXT NULL";
             executeQuery($alter_sql);
             // Thử lại
             $permissions_json = json_encode($permissions);
             $permissions_json = escapeString($permissions_json);
-            $sql = "UPDATE NHAN_VIEN SET quyen = '$permissions_json' WHERE ma_nv = '$ma_nv'";
+            $sql = "UPDATE nhan_vien SET quyen = '$permissions_json' WHERE ma_nv = '$ma_nv'";
             return executeQuery($sql);
         } catch (Exception $e2) {
             return false;

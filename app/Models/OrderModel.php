@@ -15,7 +15,7 @@ class OrderModel extends BaseModel {
         $orderCandidates = ['ma_don','ma_don_hang','ma_dh','id','don_hang_id','order_id','code'];
         $availableOrderCols = [];
         foreach ($orderCandidates as $c) {
-            if ($this->columnExists('DON_HANG', $c)) {
+            if ($this->columnExists('don_hang', $c)) {
                 $availableOrderCols[] = $c;
             }
         }
@@ -24,13 +24,13 @@ class OrderModel extends BaseModel {
         $detailCandidates = ['ma_don','ma_don_hang','ma_dh','don_hang_id','order_id'];
         $availableDetailCols = [];
         foreach ($detailCandidates as $c) {
-            if ($this->columnExists('CHI_TIET_DON_HANG', $c)) {
+            if ($this->columnExists('chi_tiet_don_hang', $c)) {
                 $availableDetailCols[] = $c;
             }
         }
         
         // Tìm cột ngày đặt hàng
-        $orderDateCol = $this->columnExists('DON_HANG','ngay_gio') ? 'ngay_gio' : ($this->columnExists('DON_HANG','ngay_dat') ? 'ngay_dat' : null);
+        $orderDateCol = $this->columnExists('don_hang','ngay_gio') ? 'ngay_gio' : ($this->columnExists('don_hang','ngay_dat') ? 'ngay_dat' : null);
         
         // Xây dựng câu ORDER BY
         $orderByClause = '';
@@ -52,12 +52,12 @@ class OrderModel extends BaseModel {
         $totalSub = '0';
         if ($orderIdRef && !empty($availableDetailCols)) {
             $detailRef = $availableDetailCols[0];
-            $totalSub = "(SELECT SUM(ct.so_luong * ct.don_gia) FROM CHI_TIET_DON_HANG ct WHERE ct.`" . $detailRef . "` = dh.`" . $orderIdRef . "`)";
+            $totalSub = "(SELECT SUM(ct.so_luong * ct.don_gia) FROM chi_tiet_don_hang ct WHERE ct.`" . $detailRef . "` = dh.`" . $orderIdRef . "`)";
         }
         
         // Câu lệnh SQL
         $selectList = 'dh.*' . ($selectIdExpr ? (', ' . $selectIdExpr) : '');
-        $sql = "SELECT " . $selectList . ", kh.ten_kh, " . $totalSub . " as total_amount FROM DON_HANG dh LEFT JOIN KHACH_HANG kh ON dh.ma_kh = kh.ma_kh" . $orderByClause;
+        $sql = "SELECT " . $selectList . ", kh.ten_kh, " . $totalSub . " as total_amount FROM don_hang dh LEFT JOIN khach_hang kh ON dh.ma_kh = kh.ma_kh" . $orderByClause;
         
         return $this->fetchAll($sql);
     }
@@ -71,7 +71,7 @@ class OrderModel extends BaseModel {
         $orderCandidates = ['ma_don','ma_don_hang','ma_dh','id','don_hang_id','order_id','code'];
         $availableOrderCols = [];
         foreach ($orderCandidates as $c) {
-            if ($this->columnExists('DON_HANG', $c)) {
+            if ($this->columnExists('don_hang', $c)) {
                 $availableOrderCols[] = $c;
             }
         }
@@ -91,7 +91,7 @@ class OrderModel extends BaseModel {
         
         if (count($whereParts) > 0) {
             $selectIdExpr = "dh.`" . $availableOrderCols[0] . "` as ma_don_hang";
-            $sql = "SELECT dh.*, $selectIdExpr, kh.ten_kh, kh.email, kh.sdt FROM DON_HANG dh LEFT JOIN KHACH_HANG kh ON dh.ma_kh = kh.ma_kh WHERE (" . implode(' OR ', $whereParts) . ") LIMIT 1";
+            $sql = "SELECT dh.*, $selectIdExpr, kh.ten_kh, kh.email, kh.sdt FROM don_hang dh LEFT JOIN khach_hang kh ON dh.ma_kh = kh.ma_kh WHERE (" . implode(' OR ', $whereParts) . ") LIMIT 1";
             return $this->fetchOne($sql);
         }
         
@@ -107,7 +107,7 @@ class OrderModel extends BaseModel {
         $detailCandidates = ['ma_don','ma_don_hang','ma_dh','don_hang_id','order_id'];
         $availableDetailCols = [];
         foreach ($detailCandidates as $c) {
-            if ($this->columnExists('CHI_TIET_DON_HANG', $c)) {
+            if ($this->columnExists('chi_tiet_don_hang', $c)) {
                 $availableDetailCols[] = $c;
             }
         }
@@ -123,7 +123,7 @@ class OrderModel extends BaseModel {
         }
         
         if (count($itemWhere) > 0) {
-            $sql = "SELECT ct.*, sp.ten_sp, sps.ma_sp as ma_sp FROM CHI_TIET_DON_HANG ct LEFT JOIN san_pham_size sps ON ct.id_sp_size = sps.id LEFT JOIN SAN_PHAM sp ON sps.ma_sp = sp.ma_sp WHERE (" . implode(' OR ', $itemWhere) . ")";
+            $sql = "SELECT ct.*, sp.ten_sp, sps.ma_sp as ma_sp FROM chi_tiet_don_hang ct LEFT JOIN san_pham_size sps ON ct.id_sp_size = sps.id LEFT JOIN san_pham sp ON sps.ma_sp = sp.ma_sp WHERE (" . implode(' OR ', $itemWhere) . ")";
             return $this->fetchAll($sql);
         }
         
@@ -140,7 +140,7 @@ class OrderModel extends BaseModel {
         $orderCandidates = ['ma_don','ma_don_hang','ma_dh','id','don_hang_id','order_id','code'];
         $availableOrderCols = [];
         foreach ($orderCandidates as $c) {
-            if ($this->columnExists('DON_HANG', $c)) {
+            if ($this->columnExists('don_hang', $c)) {
                 $availableOrderCols[] = $c;
             }
         }
@@ -156,7 +156,7 @@ class OrderModel extends BaseModel {
                 } else {
                     $where = "`$col` = '" . $this->escapeString($idRaw) . "'";
                 }
-                $sql = "UPDATE DON_HANG SET trang_thai = '$status' WHERE $where";
+                $sql = "UPDATE don_hang SET trang_thai = '$status' WHERE $where";
                 $res = $this->executeQuery($sql);
                 if ($res && mysqli_affected_rows($this->conn) > 0) {
                     return true;
@@ -189,7 +189,7 @@ class OrderModel extends BaseModel {
         $customerAddress = $this->escapeString($customerAddress);
 
         // Mã đơn mới
-        $count = $this->fetchOne("SELECT COUNT(*) as total FROM DON_HANG");
+        $count = $this->fetchOne("SELECT COUNT(*) as total FROM don_hang");
         $ma_don_hang = 'DH' . str_pad((int)($count['total'] ?? 0) + 1, 4, '0', STR_PAD_LEFT);
         $ngay_gio = date('Y-m-d H:i:s');
         $phuong_thuc = 'thanh_toan_khi_nhan_hang';
@@ -221,7 +221,7 @@ class OrderModel extends BaseModel {
         if ($appliedVoucher && is_array($appliedVoucher)) {
             $code = $appliedVoucher['code'] ?? '';
             if ($code !== '') {
-                $v_db = $this->fetchOne("SELECT * FROM VOUCHER WHERE code = '" . $this->escapeString($code) . "' LIMIT 1");
+                $v_db = $this->fetchOne("SELECT * FROM voucher WHERE code = '" . $this->escapeString($code) . "' LIMIT 1");
                 if ($v_db && (!isset($v_db['active']) || $v_db['active'])) {
                     $today = date('Y-m-d');
                     $startOk = empty($v_db['start_date']) && empty($v_db['ngay_bat_dau']) || $today >= ($v_db['start_date'] ?? $v_db['ngay_bat_dau']);
@@ -229,8 +229,8 @@ class OrderModel extends BaseModel {
                     if ($startOk && $endOk) {
                         $usageLimitVal = (int)($v_db['usage_limit'] ?? $v_db['so_luot'] ?? 0);
                         $usedCountVal = (int)($v_db['used_count'] ?? $v_db['da_su_dung'] ?? 0);
-                        if ($usedCountVal === 0 && $this->columnExists('DON_HANG', 'voucher_code')) {
-                            $cnt = $this->fetchOne("SELECT COUNT(*) as cnt FROM DON_HANG WHERE voucher_code = '" . $this->escapeString($code) . "'");
+                        if ($usedCountVal === 0 && $this->columnExists('don_hang', 'voucher_code')) {
+                            $cnt = $this->fetchOne("SELECT COUNT(*) as cnt FROM don_hang WHERE voucher_code = '" . $this->escapeString($code) . "'");
                             $usedCountVal = (int)($cnt['cnt'] ?? 0);
                         }
                         if ($usageLimitVal === 0 || $usedCountVal < $usageLimitVal) {
@@ -259,7 +259,7 @@ class OrderModel extends BaseModel {
 
         $ma_kh_val = $ma_kh ? "'$ma_kh'" : 'NULL';
         $voucher_val = $voucher_code ? "'" . $this->escapeString($voucher_code) . "'" : 'NULL';
-        $sql = "INSERT INTO DON_HANG (ma_don, ma_kh, ma_nv, ngay_dat, trang_thai, phuong_thuc_tt, voucher_code, giam_gia, tong_tien) VALUES (" .
+        $sql = "INSERT INTO don_hang (ma_don, ma_kh, ma_nv, ngay_dat, trang_thai, phuong_thuc_tt, voucher_code, giam_gia, tong_tien) VALUES (" .
             "'" . $this->escapeString($ma_don_hang) . "', $ma_kh_val, '" . $this->escapeString($ma_nv) . "', '" . $ngay_gio . "', 'cho_xu_ly', '" . $phuong_thuc . "', $voucher_val, " . (float)$discount_amount . ", " . (float)$tong_tien . ")";
         if (!$this->executeQuery($sql)) {
             return ['success' => false, 'ma_don' => null, 'error' => 'Lỗi khi tạo đơn hàng.'];
@@ -284,30 +284,30 @@ class OrderModel extends BaseModel {
             }
             if ($id_sp_size === null) continue;
             $thanh_tien = $don_gia * $so_luong;
-            $detail_sql = "INSERT INTO CHI_TIET_DON_HANG (ma_don, id_sp_size, so_luong, don_gia, ghi_chu) VALUES (" .
+            $detail_sql = "INSERT INTO chi_tiet_don_hang (ma_don, id_sp_size, so_luong, don_gia, ghi_chu) VALUES (" .
                 "'" . $this->escapeString($ma_don_hang) . "', $id_sp_size, $so_luong, " . (float)$don_gia . ", NULL)";
             if (!$this->executeQuery($detail_sql)) {
                 return ['success' => false, 'ma_don' => $ma_don_hang, 'error' => 'Lỗi khi thêm chi tiết đơn hàng.'];
             }
             if ($this->columnExists('san_pham', 'ton_kho')) {
-                $this->executeQuery("UPDATE SAN_PHAM SET ton_kho = ton_kho - $so_luong WHERE ma_sp = '" . $this->escapeString($ma_sp) . "'");
+                $this->executeQuery("UPDATE san_pham SET ton_kho = ton_kho - $so_luong WHERE ma_sp = '" . $this->escapeString($ma_sp) . "'");
             }
         }
 
         if ($voucher_code) {
             $usageCol = null;
             foreach (['used_count', 'da_su_dung'] as $c) {
-                if ($this->columnExists('VOUCHER', $c)) { $usageCol = $c; break; }
+                if ($this->columnExists('voucher', $c)) { $usageCol = $c; break; }
             }
             if ($usageCol) {
-                $this->executeQuery("UPDATE VOUCHER SET `$usageCol` = `$usageCol` + 1 WHERE code = '" . $this->escapeString($voucher_code) . "'");
+                $this->executeQuery("UPDATE voucher SET `$usageCol` = `$usageCol` + 1 WHERE code = '" . $this->escapeString($voucher_code) . "'");
             }
         }
 
-        if ($ma_kh && $this->columnExists('KHACH_HANG', 'diem_tich_luy')) {
+        if ($ma_kh && $this->columnExists('khach_hang', 'diem_tich_luy')) {
             $points_earned = (int)floor($tong_tien / 10000);
             if ($points_earned > 0) {
-                $this->executeQuery("UPDATE KHACH_HANG SET diem_tich_luy = COALESCE(diem_tich_luy,0) + $points_earned WHERE ma_kh = '$ma_kh'");
+                $this->executeQuery("UPDATE khach_hang SET diem_tich_luy = COALESCE(diem_tich_luy,0) + $points_earned WHERE ma_kh = '$ma_kh'");
             }
         }
 

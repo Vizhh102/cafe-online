@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Đơn hàng của tôi - The Caffe</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    <?php require BASE_PATH . '/app/Views/layouts/customer_header.php'; ?>
+    <?php require __DIR__ . '/../../layouts/customer_header.php'; ?>
     <main>
         <div class="container">
             <div class="card">
@@ -93,6 +93,6 @@
             <?php endif; ?>
         </div>
     </main>
-    <?php require BASE_PATH . '/app/Views/layouts/customer_footer.php'; ?>
+    <?php require __DIR__ . '/../../layouts/customer_footer.php'; ?>
 </body>
 </html>

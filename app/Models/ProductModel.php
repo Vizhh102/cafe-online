@@ -119,7 +119,7 @@ class ProductModel extends BaseModel {
         $ma_danh_muc = $this->escapeString($data['ma_danh_muc']);
         $mo_ta = isset($data['mo_ta']) ? $this->escapeString($data['mo_ta']) : '';
         $ton_kho = isset($data['ton_kho']) ? intval($data['ton_kho']) : 0;
-        $trang_thai = isset($data['trang_thai']) ? $this->escapeString($data['trang_thai']) : 'Hoạt động';
+        $trang_thai = isset($data['trang_thai']) ? $this->escapeString($data['trang_thai']) : 'ban';
         $hinh_anh = isset($data['hinh_anh']) ? $this->escapeString($data['hinh_anh']) : null;
         $gia_size = isset($data['gia_size']) ? $data['gia_size'] : '';
         
@@ -127,13 +127,19 @@ class ProductModel extends BaseModel {
         $stockCol = $this->detectColumn('san_pham', ['ton_kho','so_luong','stock','quantity','qty']);
         $statusCol = $this->detectColumn('san_pham', ['trang_thai','status','trangthai','tinh_trang']);
         
-        // Xác định giá trị trạng thái
-        $db_status = $trang_thai === 'Hoạt động' ? 'Còn hàng' : $trang_thai;
+        // Xác định giá trị trạng thái lưu trong DB
+        // Hỗ trợ cả ENUM('ban','ngung_ban'), tinyint(1) hoặc text 'Còn hàng'/'Ngừng bán'
+        $db_status = $trang_thai;
         if ($statusCol) {
             $colInfo = $this->fetchOne("SHOW COLUMNS FROM `san_pham` LIKE '" . $this->escapeString($statusCol) . "'");
             $colType = $colInfo['Type'] ?? '';
             if (stripos($colType, 'tinyint') !== false || stripos($colType, 'int') !== false) {
-                $db_status = ($trang_thai === 'Hoạt động') ? 1 : 0;
+                // Kiểu boolean: 1 = đang bán, 0 = ngừng
+                $db_status = (in_array($trang_thai, ['Hoạt động','ban'], true)) ? 1 : 0;
+            } elseif (stripos($colType, 'enum(') !== false && strpos($colType, "'ban'") !== false) {
+                // Kiểu ENUM('ban','ngung_ban')
+                if ($trang_thai === 'Hoạt động') $db_status = 'ban';
+                elseif ($trang_thai === 'Ngừng hoạt động') $db_status = 'ngung_ban';
             }
         }
         
@@ -170,7 +176,7 @@ class ProductModel extends BaseModel {
         
         $insertCols = implode(', ', $insertColsArr);
         $insertVals = implode(', ', $insertValsArr);
-        $sql = "INSERT INTO SAN_PHAM (" . $insertCols . ") VALUES (" . $insertVals . ")";
+        $sql = "INSERT INTO san_pham (" . $insertCols . ") VALUES (" . $insertVals . ")";
         
         if ($this->executeQuery($sql)) {
             // Thêm giá theo size
@@ -204,7 +210,7 @@ class ProductModel extends BaseModel {
         $ma_danh_muc = $this->escapeString($data['ma_danh_muc']);
         $mo_ta = isset($data['mo_ta']) ? $this->escapeString($data['mo_ta']) : '';
         $ton_kho = isset($data['ton_kho']) ? intval($data['ton_kho']) : 0;
-        $trang_thai = isset($data['trang_thai']) ? $this->escapeString($data['trang_thai']) : 'Hoạt động';
+        $trang_thai = isset($data['trang_thai']) ? $this->escapeString($data['trang_thai']) : 'ban';
         $hinh_anh = isset($data['hinh_anh']) ? $this->escapeString($data['hinh_anh']) : null;
         $gia_size = isset($data['gia_size']) ? $data['gia_size'] : '';
         
@@ -212,12 +218,15 @@ class ProductModel extends BaseModel {
         $stockCol = $this->detectColumn('san_pham', ['ton_kho','so_luong','stock','quantity','qty']);
         $statusCol = $this->detectColumn('san_pham', ['trang_thai','status','trangthai','tinh_trang']);
         
-        $db_status = $trang_thai === 'Hoạt động' ? 'Còn hàng' : $trang_thai;
+        $db_status = $trang_thai;
         if ($statusCol) {
             $colInfo = $this->fetchOne("SHOW COLUMNS FROM `san_pham` LIKE '" . $this->escapeString($statusCol) . "'");
             $colType = $colInfo['Type'] ?? '';
             if (stripos($colType, 'tinyint') !== false || stripos($colType, 'int') !== false) {
-                $db_status = ($trang_thai === 'Hoạt động') ? 1 : 0;
+                $db_status = (in_array($trang_thai, ['Hoạt động','ban'], true)) ? 1 : 0;
+            } elseif (stripos($colType, 'enum(') !== false && strpos($colType, "'ban'") !== false) {
+                if ($trang_thai === 'Hoạt động') $db_status = 'ban';
+                elseif ($trang_thai === 'Ngừng hoạt động') $db_status = 'ngung_ban';
             }
         }
         
@@ -242,7 +251,7 @@ class ProductModel extends BaseModel {
             }
         }
         
-        $sql = "UPDATE SAN_PHAM SET " . implode(", ", $setParts) . " WHERE ma_sp = '$ma_sp'";
+        $sql = "UPDATE san_pham SET " . implode(", ", $setParts) . " WHERE ma_sp = '$ma_sp'";
         
         if ($this->executeQuery($sql)) {
             // Cập nhật giá theo size (không xóa bản ghi đang được chi_tiet_don_hang tham chiếu)
@@ -308,7 +317,7 @@ class ProductModel extends BaseModel {
         if (!empty($sizeIds)) {
             $this->executeQuery("DELETE FROM san_pham_size WHERE ma_sp = '$ma_sp'");
         }
-        $sql = "DELETE FROM SAN_PHAM WHERE ma_sp = '$ma_sp'";
+        $sql = "DELETE FROM san_pham WHERE ma_sp = '$ma_sp'";
         return $this->executeQuery($sql);
     }
     

@@ -21,17 +21,17 @@ class AuthController extends BaseController {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $username = escapeString($_POST['username'] ?? '');
             $password = $_POST['password'] ?? '';
-            $user = fetchOne("SELECT * FROM KHACH_HANG WHERE tai_khoan = '$username'");
+            $user = fetchOne("SELECT * FROM khach_hang WHERE tai_khoan = '$username'");
             $verified = false;
             if ($user && !empty($user['mat_khau'])) {
                 if (password_verify($password, $user['mat_khau'])) $verified = true;
                 if (!$verified && password_verify(md5($password), $user['mat_khau'])) {
                     $verified = true;
-                    executeQuery("UPDATE KHACH_HANG SET mat_khau = '" . escapeString(password_hash($password, PASSWORD_DEFAULT)) . "' WHERE ma_kh = '" . escapeString($user['ma_kh']) . "'");
+                    executeQuery("UPDATE khach_hang SET mat_khau = '" . escapeString(password_hash($password, PASSWORD_DEFAULT)) . "' WHERE ma_kh = '" . escapeString($user['ma_kh']) . "'");
                 }
                 if (!$verified && md5($password) === $user['mat_khau']) {
                     $verified = true;
-                    executeQuery("UPDATE KHACH_HANG SET mat_khau = '" . escapeString(password_hash($password, PASSWORD_DEFAULT)) . "' WHERE ma_kh = '" . escapeString($user['ma_kh']) . "'");
+                    executeQuery("UPDATE khach_hang SET mat_khau = '" . escapeString(password_hash($password, PASSWORD_DEFAULT)) . "' WHERE ma_kh = '" . escapeString($user['ma_kh']) . "'");
                 }
             }
             if ($verified) {
@@ -69,11 +69,11 @@ class AuthController extends BaseController {
                 if (password_verify($password, $user['mat_khau'])) $verified = true;
                 if (!$verified && password_verify(md5($password), $user['mat_khau'])) {
                     $verified = true;
-                    executeQuery("UPDATE NHAN_VIEN SET mat_khau = '" . escapeString(password_hash($password, PASSWORD_DEFAULT)) . "' WHERE ma_nv = '" . escapeString($user['ma_nv']) . "'");
+                    executeQuery("UPDATE nhan_vien SET mat_khau = '" . escapeString(password_hash($password, PASSWORD_DEFAULT)) . "' WHERE ma_nv = '" . escapeString($user['ma_nv']) . "'");
                 }
                 if (!$verified && md5($password) === $user['mat_khau']) {
                     $verified = true;
-                    executeQuery("UPDATE NHAN_VIEN SET mat_khau = '" . escapeString(password_hash($password, PASSWORD_DEFAULT)) . "' WHERE ma_nv = '" . escapeString($user['ma_nv']) . "'");
+                    executeQuery("UPDATE nhan_vien SET mat_khau = '" . escapeString(password_hash($password, PASSWORD_DEFAULT)) . "' WHERE ma_nv = '" . escapeString($user['ma_nv']) . "'");
                 }
             }
             if ($verified) {
@@ -114,19 +114,19 @@ class AuthController extends BaseController {
                 $error = 'Mật khẩu phải có ít nhất 6 ký tự!';
             } elseif ($password !== $confirm) {
                 $error = 'Mật khẩu xác nhận không khớp!';
-            } elseif (countRows("SELECT 1 FROM KHACH_HANG WHERE tai_khoan = '$username' OR email = '$email'") > 0) {
+            } elseif (countRows("SELECT 1 FROM khach_hang WHERE tai_khoan = '$username' OR email = '$email'") > 0) {
                 $error = 'Tên đăng nhập hoặc email đã được sử dụng!';
             } else {
-                $count = fetchOne("SELECT COUNT(*) as total FROM KHACH_HANG");
+                $count = fetchOne("SELECT COUNT(*) as total FROM khach_hang");
                 $ma_kh = 'KH' . str_pad((int)($count['total'] ?? 0) + 1, 3, '0', STR_PAD_LEFT);
                 $hash = escapeString(password_hash($password, PASSWORD_DEFAULT));
                 $cols = "ma_kh, ten_kh, sdt, email, dia_chi, tai_khoan, mat_khau";
                 $vals = "'$ma_kh','$fullname','$phone','$email','$address','$username','$hash'";
-                if (columnExists('KHACH_HANG', 'ngay_dang_ky')) {
+                if (columnExists('khach_hang', 'ngay_dang_ky')) {
                     $cols .= ", ngay_dang_ky";
                     $vals .= ", '" . date('Y-m-d') . "'";
                 }
-                if (executeQuery("INSERT INTO KHACH_HANG ($cols) VALUES ($vals)")) {
+                if (executeQuery("INSERT INTO khach_hang ($cols) VALUES ($vals)")) {
                     $success = 'Đăng ký thành công! Bạn có thể đăng nhập ngay.';
                 } else {
                     $error = 'Có lỗi xảy ra, vui lòng thử lại!';

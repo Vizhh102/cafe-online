@@ -1,6 +1,6 @@
 <?php
 /** View: Danh sách khách hàng (Admin) */
-require_once BASE_PATH . '/app/Views/layouts/admin_header.php';
+require_once __DIR__ . '/../../layouts/admin_header.php';
 ?>
 <div class="card">
     <h2>Danh sách Khách hàng</h2>
@@ -29,4 +29,4 @@ require_once BASE_PATH . '/app/Views/layouts/admin_header.php';
         </tbody>
     </table>
 </div>
-<?php require_once BASE_PATH . '/app/Views/layouts/admin_footer.php'; ?>
+<?php require_once __DIR__ . '/../../layouts/admin_footer.php'; ?>

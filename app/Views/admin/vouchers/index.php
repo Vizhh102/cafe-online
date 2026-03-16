@@ -1,6 +1,6 @@
 <?php
 /** View: Quản lý Voucher (Admin) */
-require_once BASE_PATH . '/app/Views/layouts/admin_header.php';
+require_once __DIR__ . '/../../layouts/admin_header.php';
 ?>
 <div class="card">
     <h2>Quản lý Voucher</h2>
@@ -78,4 +78,4 @@ require_once BASE_PATH . '/app/Views/layouts/admin_header.php';
     </table>
     <?php endif; ?>
 </div>
-<?php require_once BASE_PATH . '/app/Views/layouts/admin_footer.php'; ?>
+<?php require_once __DIR__ . '/../../layouts/admin_footer.php'; ?>

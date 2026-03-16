@@ -1,6 +1,6 @@
 <?php
 /** View: Chi tiết đơn hàng. Chỉ hiển thị dữ liệu; $order, $items, $orderDateCol do Controller truyền vào. */
-require_once BASE_PATH . '/app/Views/layouts/admin_header.php';
+require_once __DIR__ . '/../../layouts/admin_header.php';
 $orderDateCol = $orderDateCol ?? null;
 ?>
 	<div class="card">
@@ -70,5 +70,5 @@ $orderDateCol = $orderDateCol ?? null;
 			<p>Không tìm thấy đơn hàng.</p>
 		<?php endif; ?>
 	</div>
-<?php require_once BASE_PATH . '/app/Views/layouts/admin_footer.php'; ?>
+<?php require_once __DIR__ . '/../../layouts/admin_footer.php'; ?>
 

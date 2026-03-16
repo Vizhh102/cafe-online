@@ -1,11 +1,11 @@
 <?php
-require_once BASE_PATH . '/app/Views/layouts/admin_header.php';
+require_once __DIR__ . '/../../layouts/admin_header.php';
 echo $message ?? '';
 ?>
 <div class="card">
     <h2>Danh mục</h2>
     <?php if ($view === 'list'): ?>
-        <p><a href="<?php echo url('admin_categories'); ?>?action=add" class="btn">Thêm danh mục</a></p>
+        <p><a href="<?php echo url('admin_categories', ['action' => 'add']); ?>" class="btn">Thêm danh mục</a></p>
         <?php if (empty($categories)): ?>
             <p>Hiện chưa có danh mục nào.</p>
         <?php else: ?>
@@ -23,7 +23,7 @@ echo $message ?? '';
                     <td><?php echo htmlspecialchars($cat['ma_danh_muc']); ?></td>
                     <td><?php echo htmlspecialchars($cat['ten_danh_muc']); ?></td>
                     <td>
-                        <a href="<?php echo url('admin_categories'); ?>?action=edit&id=<?php echo urlencode($cat['ma_danh_muc']); ?>" class="btn btn-small">Sửa</a>
+                        <a href="<?php echo url('admin_categories', ['action' => 'edit', 'id' => $cat['ma_danh_muc']]); ?>" class="btn btn-small">Sửa</a>
                         <form method="POST" action="<?php echo url('admin_categories'); ?>" style="display:inline" onsubmit="return confirm('Xác nhận xóa danh mục này?');">
                             <input type="hidden" name="action" value="delete">
                             <input type="hidden" name="id" value="<?php echo htmlspecialchars($cat['ma_danh_muc']); ?>">
@@ -66,4 +66,4 @@ echo $message ?? '';
         </form>
     <?php endif; ?>
 </div>
-<?php require_once BASE_PATH . '/app/Views/layouts/admin_footer.php'; ?>
+<?php require_once __DIR__ . '/../../layouts/admin_footer.php'; ?>

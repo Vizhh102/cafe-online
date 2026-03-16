@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Đăng nhập Quản trị - The Caffe</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/login.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/login.css">
     <style>.admin-login-box { border-left: 4px solid #667eea; }</style>
 </head>
 <body>
@@ -21,6 +21,9 @@
                 <p>Hệ thống quản lý The Caffe</p>
             </div>
             <h2>Đăng nhập</h2>
+            <p style="margin: 8px 0 16px; font-size: 13px; color: #555;">
+                Tài khoản mặc định: <strong>admin</strong> &nbsp;|&nbsp; Mật khẩu: <strong>123456</strong>
+            </p>
             <?php if (!empty($error)): ?><div class="alert alert-error"><?php echo htmlspecialchars($error); ?></div><?php endif; ?>
             <form method="POST" action="<?php echo url('auth_login_admin'); ?>">
                 <div class="form-group">

@@ -39,6 +39,7 @@ class CustomerProductController extends BaseController {
             'products' => $products,
             'sizesMap' => $sizesMap,
             'categories' => $categories,
+            'current_route' => 'customer_menu',
         ]);
     }
 

@@ -17,7 +17,7 @@ if (!$conn) {
     die("Kết nối thất bại: " . mysqli_connect_error());
 }
 
-// Set charset UTF-8
+// Luôn sử dụng utf8mb4 cho mọi kết nối database (hỗ trợ đầy đủ Unicode)
 mysqli_set_charset($conn, "utf8mb4");
 
 // Ensure PHP uses the correct timezone for display/processing
