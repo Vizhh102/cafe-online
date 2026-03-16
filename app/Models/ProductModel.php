@@ -254,34 +254,18 @@ class ProductModel extends BaseModel {
         $sql = "UPDATE san_pham SET " . implode(", ", $setParts) . " WHERE ma_sp = '$ma_sp'";
         
         if ($this->executeQuery($sql)) {
-            // Cập nhật giá theo size (không xóa bản ghi đang được chi_tiet_don_hang tham chiếu)
+            // Cập nhật lại toàn bộ giá theo size: xóa và thêm mới dựa trên dữ liệu form
             if (!empty($gia_size)) {
                 $sizes_arr = json_decode($gia_size, true);
                 if (is_array($sizes_arr)) {
-                    // Lấy các id san_pham_size đang được dùng trong đơn hàng → không được xóa
-                    $refRows = $this->fetchAll("SELECT sps.id FROM san_pham_size sps INNER JOIN chi_tiet_don_hang cth ON cth.id_sp_size = sps.id WHERE sps.ma_sp = '$ma_sp'");
-                    $refIds = array_map(function ($r) { return (int) $r['id']; }, $refRows);
-                    $refIds = array_unique($refIds);
-
+                    // Xóa tất cả size cũ của sản phẩm
+                    $this->executeQuery("DELETE FROM san_pham_size WHERE ma_sp = '$ma_sp'");
+                    // Thêm lại từ dữ liệu form
                     foreach ($sizes_arr as $s) {
                         if (!isset($s['size']) || !isset($s['price'])) continue;
                         $size_val = $this->escapeString($s['size']);
                         $price_val = floatval($s['price']);
-                        $existing = $this->fetchOne("SELECT id FROM san_pham_size WHERE ma_sp = '$ma_sp' AND size = '$size_val' LIMIT 1");
-                        if ($existing) {
-                            $id = (int) $existing['id'];
-                            $this->executeQuery("UPDATE san_pham_size SET gia = $price_val WHERE id = $id");
-                        } else {
-                            $this->executeQuery("INSERT INTO san_pham_size (ma_sp, size, gia) VALUES ('$ma_sp', '$size_val', $price_val)");
-                        }
-                    }
-
-                    // Chỉ xóa các bản ghi KHÔNG nằm trong đơn hàng
-                    if (!empty($refIds)) {
-                        $in = implode(',', $refIds);
-                        $this->executeQuery("DELETE FROM san_pham_size WHERE ma_sp = '$ma_sp' AND id NOT IN ($in)");
-                    } else {
-                        $this->executeQuery("DELETE FROM san_pham_size WHERE ma_sp = '$ma_sp'");
+                        $this->executeQuery("INSERT INTO san_pham_size (ma_sp, size, gia) VALUES ('$ma_sp', '$size_val', '$price_val')");
                     }
                 }
             }
